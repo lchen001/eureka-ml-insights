@@ -112,10 +112,18 @@ GEMINI_V1_PRO_CONFIG = ModelConfig(
 
 # Claude models
 CLAUDE_SECRET_KEY_PARAMS = {
-    "key_name": "your_claude_secret_key_name",
+    "key_name": "aif-eval-claude",
     "local_keys_path": "keys/keys.json",
     "key_vault_url": None,
 }
+
+CLAUDE_3_5_SONNET_10_22_CONFIG = ModelConfig(
+    ClaudeModel,
+    {
+        "model_name": "claude-3-5-sonnet-20241022",
+        "secret_key_params": CLAUDE_SECRET_KEY_PARAMS,
+    },
+)
 
 CLAUDE_3_OPUS_CONFIG = ModelConfig(
     ClaudeModel,

@@ -30,7 +30,7 @@ from eureka_ml_insights.data_utils.data import (
     DataReader,
     HFDataReader,
 )
-from eureka_ml_insights.data_utils.transform import RunPythonTransform
+from eureka_ml_insights.data_utils.transform import RunPythonTransform, ColumnRename
 from eureka_ml_insights.metrics.aime_metrics import AIME_ExactMatch
 
 from eureka_ml_insights.metrics.reports import (
@@ -77,10 +77,7 @@ class AIME_PIPELINE(ExperimentConfig):
 
                                     }
                             ),
-                        SamplerTransform(
-                        random_seed=0,
-                        sample_count=10,
-                        ),
+                        RunPythonTransform("df = df[df['Year']==2024]")
                     
                     ],
                     ),
@@ -114,7 +111,7 @@ class AIME_PIPELINE(ExperimentConfig):
                     "path": os.path.join(self.inference_comp.output_dir, "inference_result.jsonl"),
                     "format": ".jsonl",
                     "transform": SequenceTransform(
-                        [AddColumn("extracted_answer"), AIMEExtractAnswer("model_output", "extracted_answer")]
+                        [ColumnRename({"model_output": "model_response"}), AIMEExtractAnswer("model_response", "model_output")]
                     ),
                 },
             ),
